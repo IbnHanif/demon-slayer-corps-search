@@ -1,0 +1,168 @@
+body{
+  background: #000000;
+  justify-content: center;
+  align-items: center;
+  font-family:'Instrument Serif';
+}
+.card{
+  position:relative;
+  width: 200px;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  color:white;
+}
+.bgImg{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.blurred-Layer{
+  position:absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: bottom;
+  filter: blur(10px);
+  z-index:1;
+  mask-image: linear-gradient(to top , rgba(0,0,0,1), rgba(0,0,0,0));
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: linear-gradient(
+    to top,
+    rgba(0,0,0,1),
+    rgba(0,0,0,0)
+  );
+  -webkit-mask-size:100% 100%;
+  -webkit-mask-repeat: no-repeat;
+}
+.content{
+  position:absolute;
+  bottom: 20px;
+  left: 20px;
+  color:white;
+  z-index: 2;
+
+}
+.content h3{
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 6px;
+  color:#000;
+  font-family: 'Inter';
+}
+.content p{
+  font-size: 14px;
+  color:#000;
+  line-height: 1.4;
+}
+/* Layout wrapper */
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  padding: 40px 20px;
+}
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  padding: 40px 60px;
+}
+
+/* Search bar */
+#searchInput {
+  width: 100%;
+  max-width: 860px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  border: 1px solid #222;
+  outline: none;
+  background: #111;
+  color: #888;
+  font-size: 15px;
+  font-family: 'Inter', monospace;
+  transition: border 0.3s ease;
+}
+#searchInput {
+  width: 100%;
+  max-width: 900px;
+  padding: 14px 20px;
+  border-radius: 5px;
+  border: 1px solid #2a2a2a;
+  outline: none;
+  background: #0d0d0d;
+  color: #aaa;
+  font-size: 15px;
+  font-family: 'Inter', monospace;
+  transition: border 0.3s ease, color 0.3s ease;
+}
+
+#searchInput:focus {
+  border: 1px solid #444;
+  color: #fff;
+}
+
+#searchInput::placeholder {
+  color: #444;
+}
+#searchInput:focus {
+  border: 1px solid #555;
+  color: #fff;
+}
+
+/* Cards row */
+#profile-container {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Fix text colors — white not black */
+.content h3 {
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+}
+
+.content p {
+  color: rgba(255,255,255,0.85);
+  font-size: 12px;
+  line-height: 1.5;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+}
+
+/* Hover animation on card */
+.card {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+}
+
+/* Blurred layer slides up on hover */
+.card:hover .blurred-Layer {
+  height: 70%;
+  transition: height 0.3s ease;
+}
+
+/* Content fades up slightly on hover */
+.card:hover .content {
+  bottom: 28px;
+  transition: bottom 0.3s ease;
+}
