@@ -10,6 +10,10 @@ A Demon Slayer themed profile search filter built with vanilla HTML, CSS and Jav
 ## Preview of the site:
 <img width="1613" height="517" alt="image" src="https://github.com/user-attachments/assets/42e04458-81f3-4106-bea5-1c2b38c5f6a8" />
 <img width="1168" height="842" alt="image" src="https://github.com/user-attachments/assets/b01a55a9-de9c-4d13-ad23-abfd88693495" />
+<img width="801" height="591" alt="image" src="https://github.com/user-attachments/assets/6be861a5-cb9e-4eea-ae2c-81791960beec" />
+<img width="602" height="739" alt="image" src="https://github.com/user-attachments/assets/4c2b551e-d76d-437a-bbc5-bad22d63d21a" />
+<img width="833" height="531" alt="image" src="https://github.com/user-attachments/assets/26fd29e9-a702-46b6-bd61-43b775688c74" />
+
 
 ## ✨ Features
 - 🔍 Real-time search filter — results update as you type
