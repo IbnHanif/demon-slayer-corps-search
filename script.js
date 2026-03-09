@@ -69,9 +69,7 @@ inp.addEventListener("input", () => {
           + Add Character
         </button>
       </div>`
-  } else {
-    showUsers(newUsers)
-  }
+  } 
 })
 
 // Open modal
