@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IbnHanif/demon-slayer-corps-search/main/pfps/nezuko-pfp.jpg" width="100" style="border-radius:50%"/>
+  <img src="https://i.pinimg.com/736x/0d/9b/fe/0d9bfe1aa2a80b2fea864740711e86ec.jpg" width="100" style="border-radius:50%"/>
 </p>
 
 # 🗡️ Demon Slayer — Corps Search
