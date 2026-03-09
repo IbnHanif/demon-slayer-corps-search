@@ -7,6 +7,13 @@ const Users = [
   { name: "Nezuko Kamado", pic:"pfps/nezuko-pfp.jpg", bio: "Fits in a box, bites demons, never complains — the most functional person in the corps." }
 ]
 
+// Load saved characters from localStorage BEFORE rendering
+const saved = localStorage.getItem('customUsers')
+if (saved) Users.push(...JSON.parse(saved))
+
+// Now render — includes both original + saved
+showUsers(Users)
+
 // Displaying all users
 function showUsers(arr) {
   arr.forEach(user => {
@@ -109,10 +116,3 @@ function addNewCharacter(name, bio, pic) {
   document.querySelector("#img-url").value = ""
   document.querySelector("#img-upload").value = ""
 }
-// saving the added characters:
-// Saving
-localStorage.setItem('customUsers', JSON.stringify(Users))
-
-// Loading on page start
-const saved = localStorage.getItem('customUsers')
-if (saved) Users.push(...JSON.parse(saved))
