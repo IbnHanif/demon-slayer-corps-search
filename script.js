@@ -1,80 +1,111 @@
 // the list of users on the site
 const Users = [
-  {
-    name: "Tanjiro Kamado",
-    pic:"pfps/Tanjiro-pfp.jpg",
-    bio: "Carries the weight of his entire family on his back and still bows to thank you."
-  },
-  {
-    name: "Zenitsu Agatsuma",
-    pic:"pfps/zenitsu-pfp.jpg",
-    bio: "Cries before every fight and somehow still wins — just never while conscious."
-  },
-  {
-    name: "Giyu Tomioka",
-    pic:"pfps/Giyuu-Tomokua.jpg",
-    bio: "Zero social awareness, maximum water breathing — don't invite him to parties."
-  },
-  {
-    name: "Sanemi Shinazugawa",
-    pic:"pfps/Sanemi-pfp.jpg",
-    bio: "His personality is 90% aggression and 10% aggression but with more scars."
-  },
-  {
-    name: "Nezuko Kamado",
-    pic:"pfps/nezuko-pfp.jpg",
-    bio: "Fits in a box, bites demons, never complains — the most functional person in the corps."
-  }
+  { name: "Tanjiro Kamado", pic:"pfps/Tanjiro-pfp.jpg", bio: "Carries the weight of his entire family on his back and still bows to thank you." },
+  { name: "Zenitsu Agatsuma", pic:"pfps/zenitsu-pfp.jpg", bio: "Cries before every fight and somehow still wins — just never while conscious." },
+  { name: "Giyu Tomioka", pic:"pfps/Giyuu-Tomokua.jpg", bio: "Zero social awareness, maximum water breathing — don't invite him to parties." },
+  { name: "Sanemi Shinazugawa", pic:"pfps/Sanemi-pfp.jpg", bio: "His personality is 90% aggression and 10% aggression but with more scars." },
+  { name: "Nezuko Kamado", pic:"pfps/nezuko-pfp.jpg", bio: "Fits in a box, bites demons, never complains — the most functional person in the corps." }
 ]
+
 // Displaying all users
-function showUsers(arr){
-//  We are using arr in this function to make it more dynamic and optmizied rather than hard -coding the User list we created above
-arr.forEach( Users => {
-// creating outer card div
-const card =  document.createElement("div");
-card.classList.add("card")
-// creating an image
-const img = document.createElement("img");
-img.src=Users.pic
-img.classList.add("bgImg")
-// creating the blurred layer div
-const blurredLayer =  document.createElement("div");
-blurredLayer.style.backgroundImage= `url(${Users.pic})`;
-blurredLayer.classList.add("blurred-Layer")
-// creating a content div
-const content = document.createElement("div");
-content.classList.add("content")
-// creating the H3 and the paragraph for the pfp:
-const heading =  document.createElement("h3")
-heading.textContent =  Users.name
-const aboutPara = document.createElement("p")
-aboutPara.textContent = Users.bio
-// appending the heading and the aboutPara to content:
-content.appendChild(heading)
-content.appendChild(aboutPara)
-// Appending all to the Profile Card:
-card.appendChild(img)
-card.appendChild(blurredLayer)
-card.appendChild(content)
-// appending all to the document body
-const container =  document.querySelector("#profile-container")
-container.appendChild(card)
-});
-}
-showUsers(Users)
-// filtering the user according to the input
-let inp  = document.querySelector(".inp")
-// adding the eventlistener:
-inp.addEventListener("input",()=>{
-  let newUsers =Users.filter( (Users)=>{
-    return Users.name.toLowerCase().startsWith(inp.value.toLowerCase())
+function showUsers(arr) {
+  arr.forEach(user => {
+    const card = document.createElement("div")
+    card.classList.add("card")
+
+    const img = document.createElement("img")
+    img.src = user.pic
+    img.classList.add("bgImg")
+
+    const blurredLayer = document.createElement("div")
+    blurredLayer.style.backgroundImage = `url(${user.pic})`
+    blurredLayer.classList.add("blurred-Layer")
+
+    const content = document.createElement("div")
+    content.classList.add("content")
+
+    const heading = document.createElement("h3")
+    heading.textContent = user.name
+
+    const aboutPara = document.createElement("p")
+    aboutPara.textContent = user.bio
+
+    content.appendChild(heading)
+    content.appendChild(aboutPara)
+    card.appendChild(img)
+    card.appendChild(blurredLayer)
+    card.appendChild(content)
+
+    document.querySelector("#profile-container").appendChild(card)
   })
-// display the correct user based on the input and if not including printing :"No Character Exists"
-  document.querySelector('#profile-container').innerHTML=""
-  if (newUsers.length === 0 ){
-    document.querySelector("#profile-container").innerHTML=`<p style="color:#555; font-family:'Inter'; font-size:16px; margin-top:40px;">No Character Found</p>`
+}
+
+showUsers(Users)
+
+// Search filter
+let inp = document.querySelector(".inp")
+
+inp.addEventListener("input", () => {
+  let newUsers = Users.filter(user => {
+    return user.name.toLowerCase().startsWith(inp.value.toLowerCase())
+  })
+
+  document.querySelector("#profile-container").innerHTML = ""
+
+  if (newUsers.length === 0) {
+    document.querySelector("#profile-container").innerHTML = `
+      <div style="text-align:center; margin-top:40px;">
+        <p style="color:#555; font-family:'Inter'; font-size:16px; margin-bottom:16px;">No Character Found</p>
+        <button onclick="openModal()"
+          style="background:#fff; color:#000; border:none; border-radius:6px;
+          padding:10px 20px; font-family:'Inter'; font-weight:700; cursor:pointer;">
+          + Add Character
+        </button>
+      </div>`
   } else {
     showUsers(newUsers)
   }
 })
 
+// Open modal
+function openModal() {
+  document.querySelector("#add-modal").style.display = "flex"
+}
+
+// Close modal
+document.querySelector("#close-modal").addEventListener("click", () => {
+  document.querySelector("#add-modal").style.display = "none"
+})
+
+// Handle character submission
+document.querySelector("#submit-character").addEventListener("click", () => {
+  const name = document.querySelector("#new-name").value.trim()
+  const bio = document.querySelector("#new-bio").value.trim()
+  const urlInput = document.querySelector("#img-url").value.trim()
+  const fileInput = document.querySelector("#img-upload").files[0]
+
+  if (!name || !bio) { alert("Name and bio are required!"); return }
+
+  if (fileInput) {
+    const reader = new FileReader()
+    reader.onload = function(e) { addNewCharacter(name, bio, e.target.result) }
+    reader.readAsDataURL(fileInput)
+  } else if (urlInput) {
+    addNewCharacter(name, bio, urlInput)
+  } else {
+    alert("Please upload an image or paste an image URL!")
+  }
+})
+
+// Add new character
+function addNewCharacter(name, bio, pic) {
+  Users.push({ name, bio, pic })
+  inp.value = ""
+  document.querySelector("#profile-container").innerHTML = ""
+  showUsers(Users)
+  document.querySelector("#add-modal").style.display = "none"
+  document.querySelector("#new-name").value = ""
+  document.querySelector("#new-bio").value = ""
+  document.querySelector("#img-url").value = ""
+  document.querySelector("#img-upload").value = ""
+}

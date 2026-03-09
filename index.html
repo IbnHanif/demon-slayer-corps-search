@@ -13,6 +13,26 @@
         <div id="profile-container" class="flex flex-row gap-1 items-center"></div>
     </div>
     </div>
+   <!-- Add Character Modal -->
+<div id="add-modal" style="display:none;">
+  <div id="modal-box">
+    <h3>Add a Character</h3>
+
+    <input type="text" id="new-name" placeholder="Character name">
+    <textarea id="new-bio" placeholder="One line bio"></textarea>
+
+    <!-- Option 1: Upload local image -->
+    <input type="file" id="img-upload" accept="image/*">
+
+    <!-- Option 2: Paste image URL -->
+    <input type="text" id="img-url" placeholder="Or paste image URL">
+
+    <button id="submit-character">Add to Corps</button>
+    <button id="close-modal">Cancel</button>
+  </div>
+</div>
+      </div>
+     </div>
  <script src="script.js"></script>
   </body>
 </html>
