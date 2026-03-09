@@ -107,6 +107,10 @@ document.querySelector("#submit-character").addEventListener("click", () => {
 // Add new character
 function addNewCharacter(name, bio, pic) {
   Users.push({ name, bio, pic })
+  
+  // Save to localStorage every time a character is added
+  localStorage.setItem('customUsers', JSON.stringify(Users))
+  
   inp.value = ""
   document.querySelector("#profile-container").innerHTML = ""
   showUsers(Users)
