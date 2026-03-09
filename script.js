@@ -47,8 +47,6 @@ function showUsers(arr) {
   })
 }
 
-showUsers(Users)
-
 // Search filter
 let inp = document.querySelector(".inp")
 
