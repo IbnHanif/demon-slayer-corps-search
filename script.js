@@ -109,3 +109,10 @@ function addNewCharacter(name, bio, pic) {
   document.querySelector("#img-url").value = ""
   document.querySelector("#img-upload").value = ""
 }
+// saving the added characters:
+// Saving
+localStorage.setItem('customUsers', JSON.stringify(Users))
+
+// Loading on page start
+const saved = localStorage.getItem('customUsers')
+if (saved) Users.push(...JSON.parse(saved))
