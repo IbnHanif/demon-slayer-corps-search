@@ -1,33 +1,38 @@
-// the list of users on the site
+// ============ ORIGINAL CHARACTERS ============
 const Users = [
-  { name: "Tanjiro Kamado", pic:"pfps/Tanjiro-pfp.jpg", bio: "Carries the weight of his entire family on his back and still bows to thank you." },
-  { name: "Zenitsu Agatsuma", pic:"pfps/zenitsu-pfp.jpg", bio: "Cries before every fight and somehow still wins — just never while conscious." },
-  { name: "Giyu Tomioka", pic:"pfps/Giyuu-Tomokua.jpg", bio: "Zero social awareness, maximum water breathing — don't invite him to parties." },
-  { name: "Sanemi Shinazugawa", pic:"pfps/Sanemi-pfp.jpg", bio: "His personality is 90% aggression and 10% aggression but with more scars." },
-  { name: "Nezuko Kamado", pic:"pfps/nezuko-pfp.jpg", bio: "Fits in a box, bites demons, never complains — the most functional person in the corps." }
+  { name: "Tanjiro Kamado", pic: "pfps/Tanjiro-pfp.jpg", bio: "Carries the weight of his entire family on his back and still bows to thank you." },
+  { name: "Zenitsu Agatsuma", pic: "pfps/zenitsu-pfp.jpg", bio: "Cries before every fight and somehow still wins — just never while conscious." },
+  { name: "Giyu Tomioka", pic: "pfps/Giyuu-Tomokua.jpg", bio: "Zero social awareness, maximum water breathing — don't invite him to parties." },
+  { name: "Sanemi Shinazugawa", pic: "pfps/Sanemi-pfp.jpg", bio: "His personality is 90% aggression and 10% aggression but with more scars." },
+  { name: "Nezuko Kamado", pic: "pfps/nezuko-pfp.jpg", bio: "Fits in a box, bites demons, never complains — the most functional person in the corps." }
 ]
 
-// Load saved characters from localStorage BEFORE rendering
-const saved = localStorage.getItem('customUsers')
-if (saved) Users.push(...JSON.parse(saved))
+// ============ LOAD CUSTOM CHARACTERS FROM LOCALSTORAGE ============
+// Separate array — originals never get saved to localStorage
+const savedCustom = localStorage.getItem('customUsers')
+const customUsers = savedCustom ? JSON.parse(savedCustom) : []
 
-// Now render — includes both original + saved
-showUsers(Users)
-
-// Displaying all users
+// ============ RENDER ALL USERS ============
 function showUsers(arr) {
+  const container = document.querySelector("#profile-container")
+  container.innerHTML = ""
+
   arr.forEach(user => {
+    // Card
     const card = document.createElement("div")
     card.classList.add("card")
 
+    // Image
     const img = document.createElement("img")
     img.src = user.pic
     img.classList.add("bgImg")
 
+    // Blurred layer
     const blurredLayer = document.createElement("div")
     blurredLayer.style.backgroundImage = `url(${user.pic})`
     blurredLayer.classList.add("blurred-Layer")
 
+    // Content
     const content = document.createElement("div")
     content.classList.add("content")
 
@@ -37,25 +42,27 @@ function showUsers(arr) {
     const aboutPara = document.createElement("p")
     aboutPara.textContent = user.bio
 
+    // Append everything
     content.appendChild(heading)
     content.appendChild(aboutPara)
     card.appendChild(img)
     card.appendChild(blurredLayer)
     card.appendChild(content)
-
-    document.querySelector("#profile-container").appendChild(card)
+    container.appendChild(card)
   })
 }
 
-// Search filter
-let inp = document.querySelector(".inp")
+// Initial render — originals + any saved custom ones
+showUsers([...Users, ...customUsers])
+
+// ============ SEARCH FILTER ============
+const inp = document.querySelector(".inp")
 
 inp.addEventListener("input", () => {
-  let newUsers = Users.filter(user => {
-    return user.name.toLowerCase().startsWith(inp.value.toLowerCase())
-  })
-
-  document.querySelector("#profile-container").innerHTML = ""
+  const allUsers = [...Users, ...customUsers]
+  const newUsers = allUsers.filter(user =>
+    user.name.toLowerCase().startsWith(inp.value.toLowerCase())
+  )
 
   if (newUsers.length === 0) {
     document.querySelector("#profile-container").innerHTML = `
@@ -67,20 +74,21 @@ inp.addEventListener("input", () => {
           + Add Character
         </button>
       </div>`
-  } 
+  } else {
+    showUsers(newUsers)
+  }
 })
 
-// Open modal
+// ============ MODAL ============
 function openModal() {
   document.querySelector("#add-modal").style.display = "flex"
 }
 
-// Close modal
 document.querySelector("#close-modal").addEventListener("click", () => {
   document.querySelector("#add-modal").style.display = "none"
 })
 
-// Handle character submission
+// ============ ADD CHARACTER ============
 document.querySelector("#submit-character").addEventListener("click", () => {
   const name = document.querySelector("#new-name").value.trim()
   const bio = document.querySelector("#new-bio").value.trim()
@@ -91,7 +99,7 @@ document.querySelector("#submit-character").addEventListener("click", () => {
 
   if (fileInput) {
     const reader = new FileReader()
-    reader.onload = function(e) { addNewCharacter(name, bio, e.target.result) }
+    reader.onload = e => addNewCharacter(name, bio, e.target.result)
     reader.readAsDataURL(fileInput)
   } else if (urlInput) {
     addNewCharacter(name, bio, urlInput)
@@ -100,16 +108,18 @@ document.querySelector("#submit-character").addEventListener("click", () => {
   }
 })
 
-// Add new character
 function addNewCharacter(name, bio, pic) {
-  Users.push({ name, bio, pic })
-  
-  // Save to localStorage every time a character is added
-  localStorage.setItem('customUsers', JSON.stringify(Users))
-  
+  // Push to customUsers only — never touches originals
+  customUsers.push({ name, bio, pic })
+
+  // Save only custom characters to localStorage
+  localStorage.setItem('customUsers', JSON.stringify(customUsers))
+
+  // Re-render everything
   inp.value = ""
-  document.querySelector("#profile-container").innerHTML = ""
-  showUsers(Users)
+  showUsers([...Users, ...customUsers])
+
+  // Close and reset modal
   document.querySelector("#add-modal").style.display = "none"
   document.querySelector("#new-name").value = ""
   document.querySelector("#new-bio").value = ""
